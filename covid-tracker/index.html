@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <title>Covid Tracker</title>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+  * {
+    font-family: 'Nunito', sans-serif;
+  }
+
+  .col {
+    margin: 20px;  
+    padding: 15px;
+    border-radius: 5px;
+    background-color: lightgrey;
+    height: 200px;
+  }
+
+  .fa {
+    font-size: 30px;
+  }
+
+  span {
+    font-size: 50px;
+    
+  }
+</style>
+<body>
+  <div class="container-block">
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+      <div class="container" style="text-align: center;">
+        <a class="navbar-brand" href="#" style="font-size: 30px; font-weight: bold ;color: white;">COVID-19 TRACKER</a>
+      </div>
+    </nav>
+    <h2 style="margin-top: 20px; margin-bottom: 20px; text-align: center;">Cases in <span id="country" style="text-transform: uppercase;"></span> <img src="" id="flag" height="80  " width="100"></h2>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <i class="fa fa-tachometer"></i><h2>Active Cases</h2><span id="active"></span>
+          </div>
+          <div class="col">
+            <i class="fa fa-th-list"></i><h2>Total Cases</h2><span id="cases"></span>
+          </div>
+          <div class="col">
+            <i class="fa fa-times-circle"></i><h2>Critical Cases</h2><span id="critical"></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <i class="fa fa-times"></i><h2>Total Deaths</h2><span id="death"></span>
+          </div>
+          <div class="col">
+            <i class="fa fa-check-square-o"></i><h2>Recovered Cases</h2><span id="recovered"></span>
+          </div>
+          <div class="col">
+            <i class="fa fa-eye"></i><h2>Total Testes Done</h2><span id="tests"></span>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <script>
+    fetch("/api/covid/country/gh")
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        console.log(data);
+        document.getElementById("country").innerHTML = data.country;
+        document.getElementById("active").innerHTML = data.active.toLocaleString();
+        document.getElementById("cases").innerHTML = data.cases.toLocaleString();
+        document.getElementById("critical").innerHTML = data.critical.toLocaleString();
+        document.getElementById("death").innerHTML = data.deaths.toLocaleString();
+        document.getElementById("recovered").innerHTML = data.recovered.toLocaleString();
+        document.getElementById("tests").innerHTML = data.tests.toLocaleString();
+        document.getElementById("flag").src = data.countryInfo.flag;
+      })
+  </script>
+</body>
+</html>
